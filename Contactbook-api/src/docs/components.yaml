@@ -1,0 +1,106 @@
+#common references
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: Name of the contact
+        email:
+          type: string
+          format: email
+          description: The email address of the contact
+        address:
+          type: string
+          description: The address of the contact
+        phone:
+          type: string
+          description: The phone number of the contact
+        favorite:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Favorite contact
+        avatar:
+          type: string
+          readOnly: true
+          description: Avatar of the contact
+        avatarFile:
+          type: string
+          format: binary
+          writeOnly: true
+          description: Avatar file of the contact
+
+    PaginationMetadata:
+      type: object
+      properties:
+        totalRecords:
+          type: integer
+          default: 0
+          description: The total number of records
+        limit:
+          type: integer
+          default: 5
+          description: The number of records per page
+        page:
+          type: integer
+          default: 1
+          description: The current page number
+        firstPage:
+          type: integer
+          default: 1
+          description: The first page
+        lastPage:
+          type: integer
+          default: 1
+          description: The last page
+
+  responses:
+    200NoData:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: [success]
+                description: The status of the response
+              data:
+                type: object
+                nullable: true
+                default: null
+                description: The data of the response
+
+  parameters:
+    id:
+      name: id
+      description: Contact ID
+      require: true
+      in: path
+      schema:
+        type: integer
+
+    limitParam:
+      name: limit
+      description: The number of items to return
+      in: query
+      schema:
+        type: integer
+        default: 5
+        minimum: 1
+        maximum: 100
+      required: false
+    pageParam:
+      name: page
+      description: The page number of the response
+      in: query
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+      required: false
